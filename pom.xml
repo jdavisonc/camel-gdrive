@@ -26,7 +26,7 @@
   <packaging>jar</packaging>
   <version>1.0-SNAPSHOT</version>
 
-  <name>Camel Camel GDrive :: A Camel component for integrate Google Drive Component</name>
+  <name>Camel GDrive :: A Camel component for integrate Google Drive Component</name>
   <url>http://www.myorganization.org</url>
 
   <properties>

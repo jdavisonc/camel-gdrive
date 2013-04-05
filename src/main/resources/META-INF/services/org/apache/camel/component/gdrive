@@ -15,4 +15,4 @@
 # limitations under the License.
 #
 
-class=com.github.jdavisonc.Camel GDrive :: A Camel component for integrate Google DriveComponent
+class=com.github.jdavisonc.camel.gdrive.GDriveComponent

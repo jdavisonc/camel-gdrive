@@ -14,21 +14,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.jdavisonc;
+package com.github.jdavisonc.camel.gdrive;
 
-import java.util.Map;
-
-import org.apache.camel.Endpoint;
-import org.apache.camel.impl.DefaultComponent;
+import org.apache.camel.Exchange;
+import org.apache.camel.impl.DefaultProducer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * Represents the component that manages {@link Camel GDrive :: A Camel component for integrate Google DriveEndpoint}.
+ * The Camel GDrive :: A Camel component for integrate Google Drive producer.
  */
-public class Camel GDrive :: A Camel component for integrate Google DriveComponent extends DefaultComponent {
+public class GDriveProducer extends DefaultProducer {
+    private static final transient Logger LOG = LoggerFactory.getLogger(GDriveProducer.class);
+    private final GDriveEndpoint endpoint;
 
-    protected Endpoint createEndpoint(String uri, String remaining, Map<String, Object> parameters) throws Exception {
-        Endpoint endpoint = new Camel GDrive :: A Camel component for integrate Google DriveEndpoint(uri, this);
-        setProperties(endpoint, parameters);
-        return endpoint;
+    public GDriveProducer(GDriveEndpoint endpoint) {
+        super(endpoint);
+        this.endpoint = endpoint;
     }
+
+    @Override
+	public void process(Exchange exchange) throws Exception {
+        System.out.println(exchange.getIn().getBody());    
+    }
+
 }

@@ -21,10 +21,10 @@ import org.apache.camel.component.mock.MockEndpoint;
 import org.apache.camel.test.junit4.CamelTestSupport;
 import org.junit.Test;
 
-public class Camel GDrive :: A Camel component for integrate Google DriveComponentTest extends CamelTestSupport {
+public class GDriveComponentTest extends CamelTestSupport {
 
     @Test
-    public void testCamel GDrive :: A Camel component for integrate Google Drive() throws Exception {
+    public void testGDrive() throws Exception {
         MockEndpoint mock = getMockEndpoint("mock:result");
         mock.expectedMinimumMessageCount(1);       
         
@@ -34,7 +34,8 @@ public class Camel GDrive :: A Camel component for integrate Google DriveCompone
     @Override
     protected RouteBuilder createRouteBuilder() throws Exception {
         return new RouteBuilder() {
-            public void configure() {
+            @Override
+			public void configure() {
                 from("helloworld://foo")
                   .to("helloworld://bar")
                   .to("mock:result");

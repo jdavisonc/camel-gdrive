@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.jdavisonc;
+package com.github.jdavisonc.camel.gdrive;
 
 import org.apache.camel.Consumer;
 import org.apache.camel.Processor;
@@ -22,30 +22,33 @@ import org.apache.camel.Producer;
 import org.apache.camel.impl.DefaultEndpoint;
 
 /**
- * Represents a Camel GDrive :: A Camel component for integrate Google Drive endpoint.
+ * Represents a GDrive endpoint.
  */
-public class Camel GDrive :: A Camel component for integrate Google DriveEndpoint extends DefaultEndpoint {
+public class GDriveEndpoint extends DefaultEndpoint {
 
-    public Camel GDrive :: A Camel component for integrate Google DriveEndpoint() {
+    public GDriveEndpoint() {
     }
 
-    public Camel GDrive :: A Camel component for integrate Google DriveEndpoint(String uri, Camel GDrive :: A Camel component for integrate Google DriveComponent component) {
+    public GDriveEndpoint(String uri, GDriveComponent component) {
         super(uri, component);
     }
 
-    public Camel GDrive :: A Camel component for integrate Google DriveEndpoint(String endpointUri) {
+    public GDriveEndpoint(String endpointUri) {
         super(endpointUri);
     }
 
-    public Producer createProducer() throws Exception {
-        return new Camel GDrive :: A Camel component for integrate Google DriveProducer(this);
+    @Override
+	public Producer createProducer() throws Exception {
+        return new GDriveProducer(this);
     }
 
-    public Consumer createConsumer(Processor processor) throws Exception {
-        return new Camel GDrive :: A Camel component for integrate Google DriveConsumer(this, processor);
+    @Override
+	public Consumer createConsumer(Processor processor) throws Exception {
+        return new GDriveConsumer(this, processor);
     }
 
-    public boolean isSingleton() {
+    @Override
+	public boolean isSingleton() {
         return true;
     }
 }

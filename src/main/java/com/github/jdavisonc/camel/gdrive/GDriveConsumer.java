@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.jdavisonc;
+package com.github.jdavisonc.camel.gdrive;
 
 import java.util.Date;
 
@@ -23,12 +23,12 @@ import org.apache.camel.Processor;
 import org.apache.camel.impl.ScheduledPollConsumer;
 
 /**
- * The Camel GDrive :: A Camel component for integrate Google Drive consumer.
+ * The Google Drive consumer.
  */
-public class Camel GDrive :: A Camel component for integrate Google DriveConsumer extends ScheduledPollConsumer {
-    private final Camel GDrive :: A Camel component for integrate Google DriveEndpoint endpoint;
+public class GDriveConsumer extends ScheduledPollConsumer {
+    private final GDriveEndpoint endpoint;
 
-    public Camel GDrive :: A Camel component for integrate Google DriveConsumer(Camel GDrive :: A Camel component for integrate Google DriveEndpoint endpoint, Processor processor) {
+    public GDriveConsumer(GDriveEndpoint endpoint, Processor processor) {
         super(endpoint, processor);
         this.endpoint = endpoint;
     }

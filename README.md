@@ -17,3 +17,17 @@ For more help see the Apache Camel documentation:
 
     http://camel.apache.org/writing-components.html
     
+How to use
+===
+
+    @Override
+    protected RouteBuilder createRouteBuilder() throws Exception {
+        return new RouteBuilder() {
+            @Override
+			public void configure() {
+                from("file://local/path")
+                  .process(MyProcessor())
+                  .to("gdrive://");
+            }
+        };
+    }

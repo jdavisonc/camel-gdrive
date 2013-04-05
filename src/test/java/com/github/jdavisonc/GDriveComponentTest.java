@@ -21,6 +21,11 @@ import org.apache.camel.component.mock.MockEndpoint;
 import org.apache.camel.test.junit4.CamelTestSupport;
 import org.junit.Test;
 
+/**
+ * 
+ * @author Jorge Davison (jdavisonc)
+ *
+ */
 public class GDriveComponentTest extends CamelTestSupport {
 
     @Test
@@ -36,7 +41,7 @@ public class GDriveComponentTest extends CamelTestSupport {
         return new RouteBuilder() {
             @Override
 			public void configure() {
-                from("helloworld://foo")
+                from("gdrive://foo")
                   .to("helloworld://bar")
                   .to("mock:result");
             }

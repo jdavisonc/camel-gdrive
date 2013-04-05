@@ -31,6 +31,8 @@ import com.google.api.services.drive.Drive;
 
 /**
  * Represents a GDrive endpoint.
+ * 
+ * @author Jorge Davison (jdavisonc)
  */
 public class GDriveEndpoint extends DefaultEndpoint {
 	

@@ -18,7 +18,11 @@ package com.github.jdavisonc.camel.gdrive;
 
 import com.google.api.services.drive.Drive;
 
-public class GDriveConfiguration {
+/**
+ * 
+ * @author Jorge Davison (jdavisonc)
+ */
+public class GDriveConfiguration implements Cloneable {
 	
 	private Drive gDriveClient;
 

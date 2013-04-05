@@ -24,6 +24,8 @@ import org.apache.camel.impl.ScheduledPollConsumer;
 
 /**
  * The Google Drive consumer.
+ * 
+ * @author Jorge Davison (jdavisonc)
  */
 public class GDriveConsumer extends ScheduledPollConsumer {
     private final GDriveEndpoint endpoint;

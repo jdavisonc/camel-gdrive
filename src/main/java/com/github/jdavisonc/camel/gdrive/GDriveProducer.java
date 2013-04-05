@@ -30,6 +30,8 @@ import com.google.api.services.drive.model.File;
 
 /**
  * The GDrive producer.
+ * 
+ * @author Jorge Davison (jdavisonc)
  */
 public class GDriveProducer extends DefaultProducer {
 	

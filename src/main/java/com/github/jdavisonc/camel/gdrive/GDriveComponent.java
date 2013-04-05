@@ -23,6 +23,8 @@ import org.apache.camel.impl.DefaultComponent;
 
 /**
  * Represents the component that manages {@link GDriveEndpoint}.
+ * 
+ * @author Jorge Davison (jdavisonc)
  */
 public class GDriveComponent extends DefaultComponent {
 

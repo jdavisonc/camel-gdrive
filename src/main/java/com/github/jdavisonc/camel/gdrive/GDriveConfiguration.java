@@ -16,23 +16,18 @@
  */
 package com.github.jdavisonc.camel.gdrive;
 
-import java.util.Map;
+import com.google.api.services.drive.Drive;
 
-import org.apache.camel.Endpoint;
-import org.apache.camel.impl.DefaultComponent;
+public class GDriveConfiguration {
+	
+	private Drive gDriveClient;
 
-/**
- * Represents the component that manages {@link GDriveEndpoint}.
- */
-public class GDriveComponent extends DefaultComponent {
+	public Drive getGDriveClient() {
+		return gDriveClient;
+	}
 
-    @Override
-	protected Endpoint createEndpoint(String uri, String remaining, Map<String, Object> parameters) throws Exception {
-    	
-    	GDriveConfiguration configuration = new GDriveConfiguration();
-        setProperties(configuration, parameters);
-    	
-        GDriveEndpoint endpoint = new GDriveEndpoint(uri, this, configuration);
-        return endpoint;
-    }
+	public void setGDriveClient(Drive gDriveClient) {
+		this.gDriveClient = gDriveClient;
+	}
+
 }

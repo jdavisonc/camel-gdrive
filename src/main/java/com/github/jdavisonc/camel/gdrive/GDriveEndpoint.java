@@ -21,10 +21,22 @@ import org.apache.camel.Processor;
 import org.apache.camel.Producer;
 import org.apache.camel.impl.DefaultEndpoint;
 
+import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
+import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.JsonFactory;
+import com.google.api.client.json.jackson.JacksonFactory;
+import com.google.api.services.drive.Drive;
+
 /**
  * Represents a GDrive endpoint.
  */
 public class GDriveEndpoint extends DefaultEndpoint {
+	
+	private Drive gDriveClient;
+	
+	private GDriveConfiguration configuration;
 
     public GDriveEndpoint() {
     }
@@ -37,7 +49,12 @@ public class GDriveEndpoint extends DefaultEndpoint {
         super(endpointUri);
     }
 
-    @Override
+    public GDriveEndpoint(String uri, GDriveComponent comp, GDriveConfiguration configuration) {
+    	super(uri, comp);
+        this.configuration = configuration;
+	}
+
+	@Override
 	public Producer createProducer() throws Exception {
         return new GDriveProducer(this);
     }
@@ -51,4 +68,37 @@ public class GDriveEndpoint extends DefaultEndpoint {
 	public boolean isSingleton() {
         return true;
     }
+
+	public Drive getGDriveClient() {
+        if (gDriveClient == null) {
+        	gDriveClient = configuration.getGDriveClient() != null
+                ? configuration.getGDriveClient() : createGDriveClient();
+        }
+        return gDriveClient;
+	}
+
+	public void setGDriveClient(Drive gDriveClient) {
+		this.gDriveClient = gDriveClient;
+	}
+
+	public GDriveConfiguration getConfiguration() {
+		return configuration;
+	}
+
+	public void setConfiguration(GDriveConfiguration configuration) {
+		this.configuration = configuration;
+	}
+
+	private Drive createGDriveClient() {
+	    HttpTransport httpTransport = new NetHttpTransport();
+	    JsonFactory jsonFactory = new JacksonFactory();
+		
+		GoogleTokenResponse response = new GoogleTokenResponse();
+		
+	    GoogleCredential credential = new GoogleCredential().setFromTokenResponse(response);
+	    
+	    //Create a new authorized API client
+	    return new Drive.Builder(httpTransport, jsonFactory, credential).build();
+	}
+    
 }

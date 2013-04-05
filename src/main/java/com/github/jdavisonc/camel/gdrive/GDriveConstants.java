@@ -16,23 +16,16 @@
  */
 package com.github.jdavisonc.camel.gdrive;
 
-import java.util.Map;
-
-import org.apache.camel.Endpoint;
-import org.apache.camel.impl.DefaultComponent;
-
 /**
- * Represents the component that manages {@link GDriveEndpoint}.
+ * @author Jorge Davison (jdavisonc)
+ *
  */
-public class GDriveComponent extends DefaultComponent {
+public interface GDriveConstants {
 
-    @Override
-	protected Endpoint createEndpoint(String uri, String remaining, Map<String, Object> parameters) throws Exception {
-    	
-    	GDriveConfiguration configuration = new GDriveConfiguration();
-        setProperties(configuration, parameters);
-    	
-        GDriveEndpoint endpoint = new GDriveEndpoint(uri, this, configuration);
-        return endpoint;
-    }
+	String CONTENT_TYPE        	= "CamelGDriveContentType";
+	String DESCRIPTION         	= "CamelGDriveDescription";
+	String TITLE        		= "CamelGDriveTitle";
+	String E_TAG 				= "CamelGDriveETag";
+	String FILE_ID				= "CamelGDriveFileId";
+	
 }

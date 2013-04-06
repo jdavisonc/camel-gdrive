@@ -22,7 +22,6 @@ import org.apache.camel.Producer;
 import org.apache.camel.impl.DefaultEndpoint;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
-import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
@@ -39,21 +38,22 @@ public class GDriveEndpoint extends DefaultEndpoint {
 	private Drive gDriveClient;
 	
 	private GDriveConfiguration configuration;
-
-    public GDriveEndpoint() {
-    }
+	
+	private final HttpTransport httpTransport;
+	
+	private final JsonFactory jsonFactory;
 
     public GDriveEndpoint(String uri, GDriveComponent component) {
         super(uri, component);
-    }
-
-    public GDriveEndpoint(String endpointUri) {
-        super(endpointUri);
+	    httpTransport = new NetHttpTransport();
+	    jsonFactory = new JacksonFactory();
     }
 
     public GDriveEndpoint(String uri, GDriveComponent comp, GDriveConfiguration configuration) {
     	super(uri, comp);
         this.configuration = configuration;
+	    httpTransport = new NetHttpTransport();
+	    jsonFactory = new JacksonFactory();
 	}
 
 	@Override
@@ -92,12 +92,7 @@ public class GDriveEndpoint extends DefaultEndpoint {
 	}
 
 	private Drive createGDriveClient() {
-	    HttpTransport httpTransport = new NetHttpTransport();
-	    JsonFactory jsonFactory = new JacksonFactory();
-		
-		GoogleTokenResponse response = new GoogleTokenResponse();
-		
-	    GoogleCredential credential = new GoogleCredential().setFromTokenResponse(response);
+	    GoogleCredential credential = new GoogleCredential().setAccessToken(configuration.getAccessToken());
 	    
 	    //Create a new authorized API client
 	    return new Drive.Builder(httpTransport, jsonFactory, credential).build();

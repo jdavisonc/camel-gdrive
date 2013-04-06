@@ -27,5 +27,7 @@ public interface GDriveConstants {
 	String TITLE        		= "CamelGDriveTitle";
 	String E_TAG 				= "CamelGDriveETag";
 	String FILE_ID				= "CamelGDriveFileId";
+	String ACCESS_TOKEN			= "CamelGDriveAccessToken";
+	String REFRESH_TOKEN		= "CamelGDriveRefreshToken";
 	
 }

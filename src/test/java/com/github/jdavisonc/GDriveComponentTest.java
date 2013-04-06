@@ -41,8 +41,8 @@ public class GDriveComponentTest extends CamelTestSupport {
         return new RouteBuilder() {
             @Override
 			public void configure() {
-                from("gdrive://foo")
-                  .to("helloworld://bar")
+                from("direct:input")
+                  .to("gdrive://mydrive?accessToken=&refreshToken=")
                   .to("mock:result");
             }
         };

@@ -25,6 +25,10 @@ import com.google.api.services.drive.Drive;
 public class GDriveConfiguration implements Cloneable {
 	
 	private Drive gDriveClient;
+	
+	private String accessToken;
+	
+	private String refreshToken;
 
 	public Drive getGDriveClient() {
 		return gDriveClient;
@@ -34,4 +38,20 @@ public class GDriveConfiguration implements Cloneable {
 		this.gDriveClient = gDriveClient;
 	}
 
+	public String getAccessToken() {
+		return accessToken;
+	}
+
+	public void setAccessToken(String accessToken) {
+		this.accessToken = accessToken;
+	}
+
+	public String getRefreshToken() {
+		return refreshToken;
+	}
+
+	public void setRefreshToken(String refreshToken) {
+		this.refreshToken = refreshToken;
+	}
+	
 }

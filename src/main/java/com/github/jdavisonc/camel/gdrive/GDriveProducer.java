@@ -26,6 +26,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.api.client.http.InputStreamContent;
+import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
 
 /**
@@ -51,6 +52,14 @@ public class GDriveProducer extends DefaultProducer {
     	if (title == null) {
     		title = exchange.getIn().getHeader(Exchange.FILE_NAME_ONLY, String.class);
     	}
+    	String accessToken = exchange.getIn().getHeader(GDriveConstants.ACCESS_TOKEN, String.class);
+    	
+    	Drive gDriveClient = null;
+    	if (accessToken != null) {
+    		gDriveClient = getEndpoint().getGDriveClient(accessToken);
+    	} else {
+    		gDriveClient = getEndpoint().getGDriveClient();
+    	}
     	
     	//Insert a file  
         File body = new File();
@@ -60,8 +69,8 @@ public class GDriveProducer extends DefaultProducer {
     	InputStreamContent mediaContent = new InputStreamContent(contentType, is);
     	
     	LOG.trace("Put file [{}] from exchange [{}]...", body, exchange);
-		
-    	File file = getEndpoint().getGDriveClient().files().insert(body, mediaContent).execute();
+    	
+		File file = gDriveClient.files().insert(body, mediaContent).execute();
 		
 		LOG.trace("Received result [{}]", file);
 

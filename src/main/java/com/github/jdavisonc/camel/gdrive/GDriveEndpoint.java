@@ -78,6 +78,10 @@ public class GDriveEndpoint extends DefaultEndpoint {
         }
         return gDriveClient;
 	}
+	
+	public Drive getGDriveClient(String accessToken) {
+		return createGDriveClient(accessToken);
+	}
 
 	public void setGDriveClient(Drive gDriveClient) {
 		this.gDriveClient = gDriveClient;
@@ -92,7 +96,11 @@ public class GDriveEndpoint extends DefaultEndpoint {
 	}
 
 	private Drive createGDriveClient() {
-	    GoogleCredential credential = new GoogleCredential().setAccessToken(configuration.getAccessToken());
+	    return createGDriveClient(configuration.getAccessToken());
+	}
+	
+	private Drive createGDriveClient(String accessToken) {
+	    GoogleCredential credential = new GoogleCredential().setAccessToken(accessToken);
 	    
 	    //Create a new authorized API client
 	    return new Drive.Builder(httpTransport, jsonFactory, credential).build();

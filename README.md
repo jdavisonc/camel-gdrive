@@ -1,22 +1,28 @@
 Camel Google Drive Component
 ============
 
-Camel component for integrate with Google Drive
-
-To build this project use
-
-    mvn install
-
-For more help see the Apache Camel documentation:
-
-    http://camel.apache.org/writing-components.html
+The Google Drive component supports storing objetcs to Google Drive service.
     
+## URI Format
+
+    gdrive://mydrive[?options]
+
+You can append query options to the URI in the following format, ?options=value&option2=value&...
+
+## URI Options
+
+| Name          | Default Value | Context | Description                                                         |
+| --------------|:------------- |:--------|:-------------------------------------------------------------------:|
+| gDriveClient  | null          | Shared  | Reference to a com.google.api.services.drive.Drive in the Registry. |
+| accessToken   | null          | Shared  | Google Drive access token                                           |
+| refreshToken  | null          | Shared  | Google Drive refresh token                                          |
+
 ## Authentication
 
 This component use Offline OAuth 2.0 for Web Server Applications, you should follow the following instructions to get an authentication code: https://developers.google.com/accounts/docs/OAuth2WebServer.
 The component doesn't provide the authentication process, it assumes that the token given is valid.
 
-## How to use
+## How to use with DSL
 
     @Override
     protected RouteBuilder createRouteBuilder() throws Exception {
@@ -25,27 +31,53 @@ The component doesn't provide the authentication process, it assumes that the to
 			public void configure() {
                 from("file://local/path")
                   .process(MyProcessor())
-                  .to("gdrive://");
+                  .to("gdrive://mydrive");
             }
         };
     }
 
+## How to use with XML
+
+    <route>
+      <from uri="file://ocal/path" />
+      <process ref="myProcessor" />
+      <to uri="gdrive://mydrive" />
+    </route>
+
+
 ## Message Headers
 
-| Header                    | Description           |
-| ------------------------- |:---------------------:|
-| CamelGDriveContentType    |                       |
-| CamelGDriveDescription    |                       |
-| CamelGDriveTitle          |                       |
-| CamelGDriveETag           |                       |
-| CamelGDriveFileId         |                       |
-| CamelGDriveAccessToken    |                       |
-| CamelGDriveRefreshToken   |                       |
+| Header                    | Description                                               |
+| ------------------------- |:---------------------------------------------------------:|
+| CamelGDriveContentType    | Content type of the file                                  |
+| CamelGDriveDescription    | Description for the file that will appear in Google Drive |
+| CamelGDriveTitle          | Title of the file in Google Drive (the name)              |
+| CamelGDriveETag           | ETag for file                                             |
+| CamelGDriveFileId         | File identifier given by Google Drive                     |
+| CamelGDriveAccessToken    | Access token for Google Drive                             |
+| CamelGDriveRefreshToken   | Refresh token for Google Drive                            |
+
+## Dependencies
+
+Maven users will need to add the following dependency to their pom.xml.
+
+    <dependency>
+        <groupId>com.github.jdavisonc</groupId>
+        <artifactId>camel-gdrive</artifactId>
+        <version>${gdrive-version}</version>
+    </dependency>
+
+where ${gdriveversion} must be replaced by the actual version (1.0-SNAPSHOT or higher).
 
 ## Links
 
 * [Google Drive API](https://code.google.com/p/google-api-java-client/wiki/APIs#Drive_API)
 * [Google Drive from Java](https://developers.google.com/drive/quickstart-java)
+
+## Author
+
+Jorge Davison 
+[@jdavisonc](http://twitter.com/jdavisonc)
 
 ## License
 

@@ -31,11 +31,11 @@ import com.google.api.services.drive.model.File;
 
 /**
  * The GDrive producer.
- * 
+ *
  * @author Jorge Davison (jdavisonc)
  */
 public class GDriveProducer extends DefaultProducer {
-	
+
     private static final transient Logger LOG = LoggerFactory.getLogger(GDriveProducer.class);
 
     public GDriveProducer(GDriveEndpoint endpoint) {
@@ -44,7 +44,7 @@ public class GDriveProducer extends DefaultProducer {
 
     @Override
 	public void process(Exchange exchange) throws Exception {
-        
+
     	InputStream is = exchange.getIn().getMandatoryBody(InputStream.class);
     	String contentType = exchange.getIn().getHeader(GDriveConstants.CONTENT_TYPE, String.class);
     	String description = exchange.getIn().getHeader(GDriveConstants.DESCRIPTION, String.class);
@@ -53,25 +53,25 @@ public class GDriveProducer extends DefaultProducer {
     		title = exchange.getIn().getHeader(Exchange.FILE_NAME_ONLY, String.class);
     	}
     	String accessToken = exchange.getIn().getHeader(GDriveConstants.ACCESS_TOKEN, String.class);
-    	
+
     	Drive gDriveClient = null;
     	if (accessToken != null) {
     		gDriveClient = getEndpoint().getGDriveClient(accessToken);
     	} else {
     		gDriveClient = getEndpoint().getGDriveClient();
     	}
-    	
-    	//Insert a file  
+
+    	//Insert a file
         File body = new File();
         body.setTitle(title);
         body.setDescription(description);
         body.setMimeType(contentType);
     	InputStreamContent mediaContent = new InputStreamContent(contentType, is);
-    	
+
     	LOG.trace("Put file [{}] from exchange [{}]...", body, exchange);
-    	
+
 		File file = gDriveClient.files().insert(body, mediaContent).execute();
-		
+
 		LOG.trace("Received result [{}]", file);
 
         Message message = getMessageForResponse(exchange);
@@ -88,14 +88,14 @@ public class GDriveProducer extends DefaultProducer {
 
         return exchange.getIn();
     }
-    
+
     protected GDriveConfiguration getConfiguration() {
         return getEndpoint().getConfiguration();
     }
 
     @Override
     public String toString() {
-        return "S3Producer[" + URISupport.sanitizeUri(getEndpoint().getEndpointUri()) + "]";
+        return "GDriveProducer[" + URISupport.sanitizeUri(getEndpoint().getEndpointUri()) + "]";
     }
 
     @Override

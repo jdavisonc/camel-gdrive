@@ -16,18 +16,16 @@
  */
 package com.github.jdavisonc.camel.gdrive;
 
-import java.util.Date;
-
-import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.impl.ScheduledPollConsumer;
 
 /**
  * The Google Drive consumer.
- * 
+ *
  * @author Jorge Davison (jdavisonc)
  */
 public class GDriveConsumer extends ScheduledPollConsumer {
+
     private final GDriveEndpoint endpoint;
 
     public GDriveConsumer(GDriveEndpoint endpoint, Processor processor) {
@@ -37,21 +35,6 @@ public class GDriveConsumer extends ScheduledPollConsumer {
 
     @Override
     protected int poll() throws Exception {
-        Exchange exchange = endpoint.createExchange();
-
-        // create a message body
-        Date now = new Date();
-        exchange.getIn().setBody("Hello World! The time is " + now);
-
-        try {
-            // send message to next processor in the route
-            getProcessor().process(exchange);
-            return 1; // number of messages polled
-        } finally {
-            // log exception if an exception occurred and was not handled
-            if (exchange.getException() != null) {
-                getExceptionHandler().handleException("Error processing exchange", exchange, exchange.getException());
-            }
-        }
+        throw new UnsupportedOperationException("Not implemented yet");
     }
 }

@@ -30,6 +30,7 @@ import org.apache.camel.ProducerTemplate;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.mock.MockEndpoint;
 import org.apache.camel.test.junit4.CamelTestSupport;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.github.jdavisonc.camel.gdrive.GDriveConstants;
@@ -43,22 +44,23 @@ import com.google.api.services.drive.DriveScopes;
 import com.google.common.io.Files;
 
 /**
- * 
+ *
  * @author Jorge Davison (jdavisonc)
- * 
+ *
  */
+@Ignore
 public class GDriveComponentTest extends CamelTestSupport {
 
 	private static String CLIENT_ID = "?";
 	private static String CLIENT_SECRET = "?";
 
 	private static String REDIRECT_URI = "?";
-	
+
 	private String token = "?";
-	
+
     @EndpointInject(uri = "direct:input")
     private ProducerTemplate template;
-    
+
     @EndpointInject(uri = "mock:result")
     private MockEndpoint mockEndpoint;
 
@@ -71,13 +73,13 @@ public class GDriveComponentTest extends CamelTestSupport {
 	            httpTransport, jsonFactory, CLIENT_ID, CLIENT_SECRET, Arrays.asList(DriveScopes.DRIVE))
 	            .setAccessType("offline")
 	            .setApprovalPrompt("auto").build();
-	        
+
         String url = flow.newAuthorizationUrl().setRedirectUri(REDIRECT_URI).build();
         System.out.println("Please open the following URL in your browser then type the authorization code:");
         System.out.println("  " + url);
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         String code = br.readLine();
-        
+
         GoogleTokenResponse response = flow.newTokenRequest(code).setRedirectUri(REDIRECT_URI).execute();
 
 		System.out.println("Response " + response);
@@ -95,12 +97,12 @@ public class GDriveComponentTest extends CamelTestSupport {
 		headers.put(GDriveConstants.TITLE, "Title");
 		headers.put(GDriveConstants.DESCRIPTION, "test");
 		headers.put(GDriveConstants.CONTENT_TYPE, "text/plain");
-		
+
 		File tmpFile = File.createTempFile("temp-file", ".tmp");
 		Files.write("This is a body test", tmpFile, Charset.defaultCharset());
-		
+
 		template.sendBodyAndHeaders(new FileInputStream(tmpFile), headers);
-		
+
 		assertMockEndpointsSatisfied();
 	}
 

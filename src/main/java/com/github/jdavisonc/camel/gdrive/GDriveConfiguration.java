@@ -30,6 +30,12 @@ public class GDriveConfiguration implements Cloneable {
 	
 	private String refreshToken;
 
+	private String clientId;
+	
+	private String clientSecret;
+	
+    private boolean deleteAfterRead = true;
+	
 	public Drive getGDriveClient() {
 		return gDriveClient;
 	}
@@ -38,20 +44,44 @@ public class GDriveConfiguration implements Cloneable {
 		this.gDriveClient = gDriveClient;
 	}
 
-	public String getAccessToken() {
-		return accessToken;
-	}
-
-	public void setAccessToken(String accessToken) {
-		this.accessToken = accessToken;
-	}
-
 	public String getRefreshToken() {
 		return refreshToken;
 	}
 
 	public void setRefreshToken(String refreshToken) {
 		this.refreshToken = refreshToken;
+	}
+
+	public String getClientId() {
+		return clientId;
+	}
+
+	public void setClientId(String clientId) {
+		this.clientId = clientId;
+	}
+
+	public String getClientSecret() {
+		return clientSecret;
+	}
+
+	public void setClientSecret(String clientSecret) {
+		this.clientSecret = clientSecret;
+	}
+
+	public boolean isDeleteAfterRead() {
+		return deleteAfterRead;
+	}
+
+	public void setDeleteAfterRead(boolean deleteAfterRead) {
+		this.deleteAfterRead = deleteAfterRead;
+	}
+
+	public String getAccessToken() {
+		return accessToken;
+	}
+
+	public void setAccessToken(String accessToken) {
+		this.accessToken = accessToken;
 	}
 	
 }

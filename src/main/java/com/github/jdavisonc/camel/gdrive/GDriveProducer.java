@@ -16,6 +16,7 @@
  */
 package com.github.jdavisonc.camel.gdrive;
 
+import java.io.IOException;
 import java.io.InputStream;
 
 import org.apache.camel.Exchange;
@@ -25,6 +26,8 @@ import org.apache.camel.util.URISupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
+import com.google.api.client.http.HttpResponseException;
 import com.google.api.client.http.InputStreamContent;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
@@ -56,9 +59,9 @@ public class GDriveProducer extends DefaultProducer {
 
     	Drive gDriveClient = null;
     	if (accessToken != null) {
-    		gDriveClient = getEndpoint().getGDriveClient(accessToken);
+    		gDriveClient = getGDriveClient(accessToken);
     	} else {
-    		gDriveClient = getEndpoint().getGDriveClient();
+    		throw new UnsupportedOperationException("Any AccessToken set");
     	}
 
     	//Insert a file
@@ -68,16 +71,43 @@ public class GDriveProducer extends DefaultProducer {
         body.setMimeType(contentType);
     	InputStreamContent mediaContent = new InputStreamContent(contentType, is);
 
-    	LOG.trace("Put file [{}] from exchange [{}]...", body, exchange);
+    	try {
+    		LOG.trace("Put file [{}] from exchange [{}]...", body, exchange);
+    		uploadFile(exchange, gDriveClient, body, mediaContent);
+		} catch (HttpResponseException e) {
+			if (e.getStatusCode() == 401) {
+				// Attempt to refresh token in case of failed request
+				String newToken = refreshToken(exchange);
+				if (newToken != null) {
+					uploadFile(exchange, getGDriveClient(newToken), body, mediaContent);		
+				} else {
+					throw e;					
+				}
+			}
+		}
+    }
 
+	private String refreshToken(Exchange exchange) {
+		try {
+			String refreshToken = exchange.getIn().getHeader(GDriveConstants.REFRESH_TOKEN, String.class);
+			GoogleTokenResponse newToken = getEndpoint().refreshToken(refreshToken);
+			return (newToken != null) ? newToken.getAccessToken() : null;
+		} catch (IOException e) {
+			LOG.trace("Refresh token request fails", e);
+			return null;
+		}
+	}
+
+	private void uploadFile(Exchange exchange, Drive gDriveClient, File body,
+			InputStreamContent mediaContent) throws IOException {
 		File file = gDriveClient.files().insert(body, mediaContent).execute();
 
 		LOG.trace("Received result [{}]", file);
 
-        Message message = getMessageForResponse(exchange);
-        message.setHeader(GDriveConstants.E_TAG, file.getEtag());
-        message.setHeader(GDriveConstants.FILE_ID, file.getId());
-    }
+		Message message = getMessageForResponse(exchange);
+		message.setHeader(GDriveConstants.E_TAG, file.getEtag());
+		message.setHeader(GDriveConstants.FILE_ID, file.getId());
+	}
 
     private Message getMessageForResponse(final Exchange exchange) {
         if (exchange.getPattern().isOutCapable()) {
@@ -91,6 +121,10 @@ public class GDriveProducer extends DefaultProducer {
 
     protected GDriveConfiguration getConfiguration() {
         return getEndpoint().getConfiguration();
+    }
+    
+    protected Drive getGDriveClient(String accessToken) {
+        return getEndpoint().getGDriveClient(accessToken);
     }
 
     @Override

@@ -11,16 +11,21 @@ You can append query options to the URI in the following format, ?options=value&
 
 ## URI Options
 
-| Name          | Default Value | Context | Description                                                         |
-| --------------|:------------- |:--------|:-------------------------------------------------------------------:|
-| gDriveClient  | null          | Shared  | Reference to a com.google.api.services.drive.Drive in the Registry. |
-| accessToken   | null          | Shared  | Google Drive access token                                           |
-| refreshToken  | null          | Shared  | Google Drive refresh token                                          |
+| Name            | Default Value | Context | Description                                                         |
+| ----------------|:------------- |:--------|:-------------------------------------------------------------------:|
+| gDriveClient    | null          | Shared  | Reference to a com.google.api.services.drive.Drive in the Registry. |
+| accessToken     | null          | Shared  | Google Drive access token                                           |
+| refreshToken    | null          | Shared  | Google Drive refresh token                                          |
+| clientId        | null          | Shared  | Application id to connect to Google Drive                           |
+| clientSecret    | null          | Shared  | Application secret key to connect to Google Drive                   |
+| deleteAfterRead | true          | Shared  | Delete files from google drive after read                           |
 
 ## Authentication
 
 This component use Offline OAuth 2.0 for Web Server Applications, you should follow the following instructions to get an authentication code: https://developers.google.com/accounts/docs/OAuth2WebServer.
 The component doesn't provide the authentication process, it assumes that the token given is valid.
+
+In case a clientId and clientSecret were configured, a refresh token request is made by the component. Enabling a expired token request still alive and sucess without throwing an unauthorized exception.
 
 ## How to use with DSL
 
@@ -39,7 +44,7 @@ The component doesn't provide the authentication process, it assumes that the to
 ## How to use with XML
 
     <route>
-      <from uri="file://ocal/path" />
+      <from uri="file://local/path" />
       <process ref="myProcessor" />
       <to uri="gdrive://mydrive" />
     </route>
@@ -56,6 +61,9 @@ The component doesn't provide the authentication process, it assumes that the to
 | CamelGDriveFileId         | File identifier given by Google Drive                     |
 | CamelGDriveAccessToken    | Access token for Google Drive                             |
 | CamelGDriveRefreshToken   | Refresh token for Google Drive                            |
+| CamelGDriveMD5            | Content MD5 checksum                                      |
+| CamelGDriveContentLength  | Content length of the file                                |
+| CamelGDriveLastModified   | File last modified date                                   |
 
 ## Dependencies
 
@@ -71,13 +79,12 @@ where ${gdriveversion} must be replaced by the actual version (1.0-SNAPSHOT or h
 
 ## Links
 
-* [Google Drive API](https://code.google.com/p/google-api-java-client/wiki/APIs#Drive_API)
-* [Google Drive from Java](https://developers.google.com/drive/quickstart-java)
+* [Google API Java Client](https://code.google.com/p/google-api-java-client/wiki)
+* [Google Drive API](https://developers.google.com/drive)
 
 ## Author
 
-Jorge Davison 
-[@jdavisonc](http://twitter.com/jdavisonc)
+* Jorge Davison - [@jdavisonc](http://twitter.com/jdavisonc)
 
 ## License
 

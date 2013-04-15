@@ -29,5 +29,8 @@ public interface GDriveConstants {
 	String FILE_ID				= "CamelGDriveFileId";
 	String ACCESS_TOKEN			= "CamelGDriveAccessToken";
 	String REFRESH_TOKEN		= "CamelGDriveRefreshToken";
+	String MD5_CHECKSUM			= "CamelGDriveMD5";
+	String CONTENT_LENGTH		= "CamelGDriveContentLength";
+	String LAST_MODIFIED		= "CamelGDriveLastModified";
 	
 }

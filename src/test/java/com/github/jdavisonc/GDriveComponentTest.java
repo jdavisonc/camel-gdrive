@@ -50,14 +50,14 @@ import com.google.common.io.Files;
 //@Ignore
 public class GDriveComponentTest extends CamelTestSupport {
 
-	private static String CLIENT_ID = "127875205309.apps.googleusercontent.com";
-	private static String CLIENT_SECRET = "knh7e1LfYl43KtmOs9tnYFnk";
+	private static String CLIENT_ID = ".apps..com";
+	private static String CLIENT_SECRET = "";
 
-	private static String REDIRECT_URI = "http://herculitos.homelinux.org/oauth/final.php";
+	private static String REDIRECT_URI = "http://homelinux.org/oauth/final.php";
 	
-	private static String code = "4/1eDa20Nu7y0-roc23esCSr_jEKyr.4jd2jMjCgSUeshQV0ieZDAqKt0cVfAI";
-	private final String token = "ya29.AHES6ZQIyD6PQoBFNVWAsTNf67f4-LG_I3vf97ULzrRRIa2WDi7Cgg";
-	private final String refreshToken = "1/7YDUqWyeIcQWwVamkZ4OozEV0uZqibNnGRKtDFHmjOU";
+	private static String code = "4/1eDa20Nu7y0-";
+	private final String token = "ya29.-";
+	private final String refreshToken = "1/";
 	
     @EndpointInject(uri = "direct:input")
     private ProducerTemplate template;
